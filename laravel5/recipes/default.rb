@@ -9,8 +9,6 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-
-
 node[:deploy].each do |application, deploy|
 
 	release_path = "#{deploy[:deploy_to]}/current"
@@ -20,7 +18,6 @@ node[:deploy].each do |application, deploy|
 		Chef::Log.info("Not Laravel 5")
 		next
 	end
-
 
 	# write out .env file
 	template "#{release_path}/.env" do
@@ -32,7 +29,6 @@ node[:deploy].each do |application, deploy|
 		  :env => deploy[:environment_variables]
 		)
 	end
-
 
 	current_environment = deploy[:environment_variables]['APP_ENV']
 
@@ -70,5 +66,4 @@ node[:deploy].each do |application, deploy|
 	    group deploy[:group]
 	    command "php artisan migrate --force"
 	end
-
 end
