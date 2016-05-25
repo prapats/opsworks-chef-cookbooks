@@ -44,12 +44,16 @@ node[:deploy].each do |application, deploy|
 	if(current_environment == 'production')
 		execute "Running composer for production" do
 		    cwd release_path
-		    command "sudo composer install --no-interaction --no-dev --prefer-dist"
+		    command "composer install --no-interaction --no-dev --prefer-dist"
+            user deploy[:user]
+            group deploy[:group]
 		end
 	else
 		execute "Running composer for dev environments" do
 		    cwd release_path
-		    command "sudo composer install"
+		    command "composer install --prefer-dist"
+            user deploy[:user]
+            group deploy[:group]
 		end
 	end
 
