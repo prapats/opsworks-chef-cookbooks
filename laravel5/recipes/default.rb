@@ -32,6 +32,13 @@ node[:deploy].each do |application, deploy|
 
 	current_environment = deploy[:environment_variables]['APP_ENV']
 
+	# move vendor directory to the release path if existed
+	execute "mv #{deploy[:deploy_to]}/shared/vendor #{release_path}/vendor" do
+      only_if { File.exist?("#{deploy[:deploy_to]}/shared/vendor") }
+      user deploy[:user]
+      group deploy[:group]
+    end
+
 	Chef::Log.info("Running composer")
 	if(current_environment == 'production')
 		execute "Running composer for production" do
@@ -44,6 +51,13 @@ node[:deploy].each do |application, deploy|
 		    command "sudo composer install"
 		end
 	end
+
+	# copy updated vendor directory back to the shared directory
+    execute "cp -r #{release_path}/vendor #{deploy[:deploy_to]}/shared/vendor" do
+      only_if { File.exist?("#{release_path}/vendor") }
+      user deploy[:user]
+      group deploy[:group]
+    end
 
 	Chef::Log.info("Set ownership/permission for storage and cache folder")
 	execute "chown #{release_path}/storage" do
