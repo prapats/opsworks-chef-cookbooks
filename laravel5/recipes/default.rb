@@ -11,6 +11,7 @@
 #
 node[:deploy].each do |application, deploy|
 
+    app_path = "#{deploy[:deploy_to]}"
 	release_path = "#{deploy[:deploy_to]}/current"
 
 	#if the framework is not Laravel 5, then skip
@@ -32,11 +33,11 @@ node[:deploy].each do |application, deploy|
 
 	current_environment = deploy[:environment_variables]['APP_ENV']
 
-	# move vendor directory to the release path if existed
-	execute "mv #{deploy[:deploy_to]}/shared/vendor #{release_path}/vendor" do
-      only_if { File.exist?("#{deploy[:deploy_to]}/shared/vendor") }
-      user deploy[:user]
-      group deploy[:group]
+	execute "move vendor directory to the release path if existed" do
+        command "mv #{app_path}/shared/vendor #{release_path}/vendor"
+        only_if { File.exist?("#{app_path}/shared/vendor") }
+        user deploy[:user]
+        group deploy[:group]
     end
 
 	Chef::Log.info("Running composer")
@@ -52,11 +53,11 @@ node[:deploy].each do |application, deploy|
 		end
 	end
 
-	# copy updated vendor directory back to the shared directory
-    execute "cp -r #{release_path}/vendor #{deploy[:deploy_to]}/shared/vendor" do
-      only_if { File.exist?("#{release_path}/vendor") }
-      user deploy[:user]
-      group deploy[:group]
+    execute "copy updated vendor directory back to the shared directory" do
+        command "cp -r #{release_path}/vendor #{app_path}/shared/vendor"
+        only_if { File.exist?("#{release_path}/vendor") }
+        user deploy[:user]
+        group deploy[:group]
     end
 
 	Chef::Log.info("Set ownership/permission for storage and cache folder")
