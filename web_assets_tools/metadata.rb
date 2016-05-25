@@ -1,0 +1,6 @@
+name 'assets'
+maintainer 'Prapat Shantavasinkul'
+maintainer_email 'hi@ikq.me'
+description 'Installs/Configures nodejs, bower, and gulp'
+long_description 'Installs/Configures nodejs, bower, and gulp'
+version '0.1.0'
