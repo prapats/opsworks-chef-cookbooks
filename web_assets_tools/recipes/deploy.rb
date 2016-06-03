@@ -1,7 +1,7 @@
 node[:deploy].each do |application, deploy|
 	app_path = "#{deploy[:deploy_to]}"
 	release_path = "#{app_path}/current"
-	cache_path = "#{app_path}/shared/"
+	cache_path = "#{app_path}/shared"
 
 	# NPM install
 	execute "move node_modules directory to the release path if existed" do
