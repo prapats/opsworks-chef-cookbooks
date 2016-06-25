@@ -4,7 +4,7 @@
 #
 script "memory_swap" do
   interpreter "bash"
-  not_if { File.exist?("/var/swap.1") }
+  not_if { File.exist?('/var/swapfile') }
   user "root"
   cwd "/"
   code <<-EOH
