@@ -16,7 +16,7 @@ execute "remove php5" do
 end
 
 execute "install php 7.0" do
-    command "sudo apt-get --yes --force-yes install php7.0-fpm php7.0-mysql php7.0-curl php7.0-gd php7.0-json php7.0-mcrypt php7.0-opcache php7.0-xml php7.0-mbstring"
+    command "sudo apt-get --yes --force-yes install php7.0-fpm php7.0-mysql php7.0-curl php7.0-gd php7.0-json php7.0-mcrypt php7.0-opcache php7.0-xml php7.0-mbstring php7.0-soap"
 end
 
 execute "install php for apache" do
